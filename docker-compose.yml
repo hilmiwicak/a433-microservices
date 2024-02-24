@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  # nama service
+  item-db:
+    # image yang digunakan
+    image: mongo:3
+    # nama volume
+    volumes:
+      - app-db:/data/db
+    # bridge network yang digunakan
+    networks:
+      - item
+    # restart policy
+    restart: always
+
+  # nama service
+  item-app:
+    # image yang digunakan
+    # dari hasil menjalankan script ./build_push_image.sh
+    image: ghcr.io/hilmiwicak/item-app:v1
+    # memastikan service ini berjalan setelah service item-db
+    depends_on:
+      - item-db
+    # bridge network yang digunakan
+    networks:
+      - item
+    # port yang diexpose
+    ports:
+      - 80:8080
+    # restart policy
+    restart: always
+
+# bridge network
+# agar service item-db dan item-app bisa berkomunikasi
+networks:
+  item:
+    driver: bridge
+
+# volume untuk mongodb
+volumes:
+  app-db:
