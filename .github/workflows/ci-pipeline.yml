@@ -15,7 +15,7 @@ jobs:
         name: Lint Dockerfile
         with:
           dockerfile: "Dockerfile"
-  build-docker-image:
+  build-push-docker-image:
     runs-on: ubuntu-latest
     needs: "lint-dockerfile"
     steps:
