@@ -30,6 +30,4 @@ jobs:
       - name: Build Docker Image
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-          pwd; ls ; printenv
-          ./build_push_image_karsajobs.sh
+        run: ./build_push_image_karsajobs.sh
