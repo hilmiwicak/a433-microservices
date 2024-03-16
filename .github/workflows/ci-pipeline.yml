@@ -20,4 +20,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: test golang app
-      run: go test -v -short --count=1 $(go list ./...)
+      run: |
+        go test --help
+        go test -v -short --count=1 $(go list ./...)
