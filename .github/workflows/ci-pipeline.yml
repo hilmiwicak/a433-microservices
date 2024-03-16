@@ -10,14 +10,24 @@ jobs:
   lint-dockerfile:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Lint Dockerfile
-      uses: hadolint/hadolint-action@master
-      with:
-        dockerfile: "Dockerfile"
+      - uses: actions/checkout@v2
+      - name: Lint Dockerfile
+        uses: hadolint/hadolint-action@master
+        with:
+          dockerfile: "Dockerfile"
   test-app:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: test golang app
-      run: go test -v -short --count=1 $(go list ./...)
+      - uses: actions/checkout@v2
+      - name: test golang app
+        run: go test -v -short --count=1 $(go list ./...)
+  build-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Docker Image
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          pwd
+          ./build_push_image_karsajobs.sh
