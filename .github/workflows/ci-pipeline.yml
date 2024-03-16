@@ -7,7 +7,7 @@ on:
       - karsajobs
 
 jobs:
-  docker-image-lint:
+  lint-dockerfile:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -15,3 +15,9 @@ jobs:
       uses: hadolint/hadolint-action@master
       with:
         dockerfile: "Dockerfile"
+  test-app:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: test golang app
+      run: go test -v -short --count=1 $(go list ./...)
