@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+
+  mysql:
+    image: mysql:5.7
+    networks:
+      - todo-network
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: dicoding
+      MYSQL_DATABASE: todo-db
+
+  app:
+    image: node:12-alpine
+    depends_on:
+      - mysql
+    networks:
+      - todo-network
+    command: sh -c "yarn install && yarn run dev"
+    ports:
+      - 3000:3000
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: dicoding
+      MYSQL_DB: todo-db
+
+networks:
+  todo-network:
+    driver: bridge
+volumes:
+  todo-mysql-data:
